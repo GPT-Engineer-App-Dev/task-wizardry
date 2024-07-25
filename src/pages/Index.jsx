@@ -36,7 +36,7 @@ const Index = () => {
           <div className="flex space-x-2 mb-4">
             <Input
               type="text"
-              placeholder="Add a new todo"
+              placeholder="Add a NEW todo"
               value={newTodo}
               onChange={(e) => setNewTodo(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && addTodo()}
