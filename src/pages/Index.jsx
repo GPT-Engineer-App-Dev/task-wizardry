@@ -1,12 +1,75 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import React, { useState } from 'react';
+import { Plus, Trash2 } from 'lucide-react';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const Index = () => {
+  const [todos, setTodos] = useState([]);
+  const [newTodo, setNewTodo] = useState('');
+
+  const addTodo = () => {
+    if (newTodo.trim() !== '') {
+      setTodos([...todos, { id: Date.now(), text: newTodo, completed: false }]);
+      setNewTodo('');
+    }
+  };
+
+  const toggleTodo = (id) => {
+    setTodos(todos.map(todo =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ));
+  };
+
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+
   return (
-    <div className="flex justify-center items-center">
-      <div className="text-center">
-        <h1 className="text-3xl">Your Blank Canvas</h1>
-        <p>Chat with the agent to start making edits.</p>
-      </div>
+    <div className="container mx-auto p-4 max-w-md">
+      <Card>
+        <CardHeader>
+          <CardTitle>Todo App</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex space-x-2 mb-4">
+            <Input
+              type="text"
+              placeholder="Add a new todo"
+              value={newTodo}
+              onChange={(e) => setNewTodo(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && addTodo()}
+            />
+            <Button onClick={addTodo}>
+              <Plus className="w-4 h-4 mr-2" />
+              Add
+            </Button>
+          </div>
+          <ul className="space-y-2">
+            {todos.map(todo => (
+              <li key={todo.id} className="flex items-center justify-between bg-secondary p-2 rounded">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    checked={todo.completed}
+                    onCheckedChange={() => toggleTodo(todo.id)}
+                    id={`todo-${todo.id}`}
+                  />
+                  <label
+                    htmlFor={`todo-${todo.id}`}
+                    className={`${todo.completed ? 'line-through text-muted-foreground' : ''}`}
+                  >
+                    {todo.text}
+                  </label>
+                </div>
+                <Button variant="ghost" size="icon" onClick={() => deleteTodo(todo.id)}>
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
     </div>
   );
 };
