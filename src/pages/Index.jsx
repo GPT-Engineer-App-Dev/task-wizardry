@@ -30,7 +30,7 @@ const Index = () => {
     <div className="container mx-auto p-4 max-w-md">
       <Card>
         <CardHeader>
-          <CardTitle>Todo App</CardTitle>
+          <CardTitle>My Todo App</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex space-x-2 mb-4">
